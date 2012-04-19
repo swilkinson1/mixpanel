@@ -183,8 +183,8 @@ describe Mixpanel::Tracker::Middleware do
       it "should be tracking the correct events inside a script tag" do
         script = Nokogiri::HTML(last_response.body).search('script')
         script.inner_html.should =~ /try\s?\{(.*)\}\s?catch/m
-        script.inner_html.should =~ /mpq\.push\(\["track",\s?"Visit",\s?\{"article":1\}\]\)/
-        script.inner_html.should =~ /mpq\.push\(\["track",\s?"Sign in",\s?\{\}\]\)/
+        script.inner_html.should =~ /mixpanel\.push\(\["track",\s?"Visit",\s?\{"article":1\}\]\)/
+        script.inner_html.should =~ /mixpanel\.push\(\["track",\s?"Sign in",\s?\{\}\]\)/
       end
 
       it "should delete events queue after use it" do
@@ -204,8 +204,8 @@ describe Mixpanel::Tracker::Middleware do
 
       it "should be tracking the correct events inside a try/catch" do
         script = last_response.body.match(/try\s?\{(.*)\}\s?catch/m)[1]
-        script.should =~ /mpq\.push\(\["track",\s?"Visit",\s?\{"article":1\}\]\)/
-        script.should =~ /mpq\.push\(\["track",\s?"Sign in",\s?\{\}\]\)/
+        script.should =~ /mixpanel\.push\(\["track",\s?"Visit",\s?\{"article":1\}\]\)/
+        script.should =~ /mixpanel\.push\(\["track",\s?"Sign in",\s?\{\}\]\)/
       end
 
       it "should delete events queue after use it" do
@@ -225,8 +225,8 @@ describe Mixpanel::Tracker::Middleware do
       end
 
       it "should be tracking the correct events" do
-        last_response.body.should =~ /mpq\.push\(\["track",\s?"Visit",\s?\{"article":1\}\]\)/
-        last_response.body.should =~ /mpq\.push\(\["track",\s?"Sign in",\s?\{\}\]\)/
+        last_response.body.should =~ /mixpanel\.push\(\["track",\s?"Visit",\s?\{"article":1\}\]\)/
+        last_response.body.should =~ /mixpanel\.push\(\["track",\s?"Sign in",\s?\{\}\]\)/
       end
 
       it "should delete events queue after use it" do
