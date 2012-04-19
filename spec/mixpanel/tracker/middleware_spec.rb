@@ -62,7 +62,7 @@ describe Mixpanel::Tracker::Middleware do
         end
 
         it "should use the specified token instantiating mixpanel lib" do
-          last_response.should =~ /mpq.push\(\["init", "#{MIX_PANEL_TOKEN}"\]\)/
+          last_response.should =~ /mixpanel.push\(\["init", "#{MIX_PANEL_TOKEN}"\]\)/
         end
 
         it "should define Content-Length if not exist" do
