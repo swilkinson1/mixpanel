@@ -84,7 +84,8 @@ module Mixpanel
     end
 
     def request(params)
-      data = Base64.encode64(JSON.generate(params)).gsub(/\n/,'')
+      #data = Base64.encode64(JSON.generate(params)).gsub(/\n/,'')
+      data = Base64.encode64(params.to_json).gsub(/\n/,'')
       url = @url + data
 
       if(@async)

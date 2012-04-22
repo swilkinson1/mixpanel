@@ -10,7 +10,6 @@ module Mixpanel
           :async => false,
           :insert_js_last => false
         }.merge(options)
-        puts "@@@@@@@ @options = #{@options.inspect} @@@@@@@@"
       end
 
       def call(env)
@@ -30,7 +29,6 @@ module Mixpanel
       private
 
       def update_response!
-        puts "@@@@@@@@@@ IN UPDATE_RESPONSE @@@@@@@@@@"
         @response.each do |part|
           if is_regular_request? && is_html_response?
             insert_at = part.index(@options[:insert_js_last] ? '</body' : '</head')
@@ -73,7 +71,6 @@ module Mixpanel
       end
 
       def render_mixpanel_scripts
-        puts "@@@@@@ IN RENDER_MIXPANEL_SCRIPTS @@@@@@@@"
         if @options[:async]
             <<-EOT
           <script type='text/javascript'>
@@ -112,12 +109,10 @@ module Mixpanel
       end
 
       def render_event_tracking_scripts(include_script_tag=true)
-        puts "@@@@@ IN RENDER_EVENT_TRACKING_SCRIPTS @@@@@"
         return "" if queue.empty?
 
         if @options[:async]
-          output = queue.map {|type, arguments| %(mixpanel.push(["#{type}", #{arguments.join(', ')}]);) }.join("\n")
-          puts "@@@@ OUTPUT = #{output} @@@@@@"
+          output = queue.map {|type, arguments| %(mixpanel.#{type}(#{arguments.join(', ')});) }.join("\n")
         else
           output = queue.map {|type, arguments| %(mpmetrics.#{type}(#{arguments.join(', ')});) }.join("\n")
         end
